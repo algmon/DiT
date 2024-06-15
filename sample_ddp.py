@@ -164,3 +164,55 @@ if __name__ == "__main__":
                         help="Optional path to a DiT checkpoint (default: auto-download a pre-trained DiT-XL/2 model).")
     args = parser.parse_args()
     main(args)
+
+'''
+code review
+authors
+- Wei Jiang, Suanfamama, wei@suanfamama.com
+- Mama Xiao, Suanfamama, mama.xiao@suanfamama.com
+
+This code implements distributed sampling of images from a pre-trained DiT model using DDP. It's well-structured and includes helpful comments, but there are some areas for improvement.
+
+1. Strengths
+
+* Clear Purpose: The code's purpose is clearly stated in the docstring, and the overall structure is easy to follow.
+* DDP Implementation: The DDP setup is well-implemented, ensuring efficient distributed training.
+* Model Loading: The code handles both pre-trained model loading and custom checkpoint loading effectively.
+* Classifier-Free Guidance: The implementation of classifier-free guidance is correct and well-explained.
+* Image Saving: The code saves images to disk in a structured manner, making it easy to organize and access samples.
+* .npz File Generation: The create_npz_from_sample_folder function is a useful addition for generating .npz files for *FID evaluation*.
+* Argument Parsing: The argparse module is used effectively to provide flexibility in configuring the sampling process.
+
+2. Areas for Improvement
+
+* Function Decomposition: The main function is quite long and could be further decomposed into smaller, more focused functions. For example, the code for sampling images could be extracted into a separate function called sample_images.
+* Error Handling: The code lacks robust error handling. For example, it doesn't handle potential errors during model loading, image generation, or saving. Adding try-except blocks to handle these errors would make the code more robust.
+* Logging: The code could benefit from more comprehensive logging. For example, logging the sampling parameters, the time taken for each iteration, and any errors encountered would be helpful for debugging and monitoring.
+
+3. Performance Optimization
+* The torch.cuda.empty_cache() call could be placed within the sampling loop to free up GPU memory more frequently.
+* The with torch.no_grad(): context manager could be used to disable gradient calculations during sampling, as they are not needed.
+
+4. Code Style
+* The code could be formatted more consistently. For example, the spacing around operators and the indentation could be improved.
+* The use of assert statements for validation could be replaced with more informative error messages.
+Documentation:
+* The docstrings could be expanded to provide more detailed explanations of the code's functionality.
+* The code could benefit from additional comments explaining the rationale behind certain design choices.
+
+5. Specific Recommendations
+* Refactor main function: Break down the main function into smaller, more manageable functions.
+Add error handling: Implement try-except blocks to handle potential errors.
+* Improve logging: Add more informative logging statements.
+* Optimize performance: Use torch.cuda.empty_cache() and with torch.no_grad(): to improve performance.
+* Refine code style: Format the code consistently and use more informative error messages.
+* Enhance documentation: Expand docstrings and add comments to explain design choices.
+
+6. Overall:
+
+This code is a good starting point for distributed image sampling using DiT models. By addressing the areas for improvement, the code can be made more robust, efficient, and easier to understand and maintain.
+
+7. Appendix: Suanfamama Engineer Perspective & Code Evaluation Methodology (draft)
+
+As a Suanfamama engineer, I would emphasize the importance of code quality, maintainability, and robustness. The code should be well-documented, easy to understand, and able to handle potential errors gracefully. Additionally, I would encourage the use of best practices for performance optimization and distributed training.
+'''
